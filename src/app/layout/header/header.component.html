@@ -1,0 +1,101 @@
+<header>
+  <a routerLink="/home" class="brand-link" (click)="fecharMenu()">
+    <h1><span class="hg">HC</span> STORE</h1>
+  </a>
+
+  <nav class="navbar-conteiner">
+    <a routerLink="/colecoes">Coleções</a>
+    <a routerLink="/product-list">Explorar</a>
+    <a routerLink="/outlet">Outlet</a>
+  </nav>
+
+  <div class="right">
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar produto..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchInput(searchQuery, false)"
+        (keyup.enter)="pesquisar(searchQuery)"
+        (blur)="fecharSugestoes()"
+        autocomplete="off"
+      />
+      <div class="autocomplete-dropdown" *ngIf="mostrarSugestoes && sugestoes.length > 0">
+        <div
+          class="autocomplete-item"
+          *ngFor="let s of sugestoes"
+          (mousedown)="selecionarSugestao(s)"
+        >
+          <img *ngIf="s.imagem" [src]="s.imagem" alt="" class="autocomplete-img" />
+          <span class="autocomplete-nome">{{ s.nome }}</span>
+          <span class="autocomplete-preco">R$ {{ s.preco | number:'1.2-2' }}</span>
+        </div>
+      </div>
+      <div class="autocomplete-dropdown" *ngIf="mostrarSugestoes && sugestoes.length === 0 && searchQuery.length > 1">
+        <div class="autocomplete-item autocomplete-empty">Nenhum produto encontrado</div>
+      </div>
+    </div>
+
+    <nav class="icons">
+      <a href="#" class="cart-trigger" (click)="abrirCart($event)">
+        <img src="assets/img/carrinho.svg" alt="Carrinho" />
+      </a>
+
+      <a href="#" class="login-trigger" (click)="abrirLogin($event)">
+        <img src="assets/img/login.svg" alt="Login" />
+      </a>
+    </nav>
+  </div>
+
+  <button class="hamburger" aria-label="Abrir menu" (click)="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</header>
+
+<div
+  class="overlay-menu"
+  [class.active]="menuMobileOpen"
+  (click)="fecharMenu()"
+></div>
+
+<div class="menu-mobile" [class.active]="menuMobileOpen">
+  <div class="menu-top">
+    <h1><span class="hg">HC</span> STORE</h1>
+    <div class="linha"></div>
+  </div>
+
+  <div class="search-mobile">
+    <input
+      type="text"
+      placeholder="Buscar produto..."
+      [(ngModel)]="mobileSearchQuery"
+      (input)="onSearchInput(mobileSearchQuery, true)"
+      (keyup.enter)="pesquisar(mobileSearchQuery)"
+      (blur)="fecharSugestoes()"
+      autocomplete="off"
+    />
+    <div class="autocomplete-dropdown autocomplete-dropdown-mobile" *ngIf="mostrarSugestoesMobile && sugestoes.length > 0">
+      <div
+        class="autocomplete-item"
+        *ngFor="let s of sugestoes"
+        (mousedown)="selecionarSugestao(s)"
+      >
+        <img *ngIf="s.imagem" [src]="s.imagem" alt="" class="autocomplete-img" />
+        <span class="autocomplete-nome">{{ s.nome }}</span>
+        <span class="autocomplete-preco">R$ {{ s.preco | number:'1.2-2' }}</span>
+      </div>
+    </div>
+    <div class="autocomplete-dropdown autocomplete-dropdown-mobile" *ngIf="mostrarSugestoesMobile && sugestoes.length === 0 && mobileSearchQuery.length > 1">
+      <div class="autocomplete-item autocomplete-empty">Nenhum produto encontrado</div>
+    </div>
+  </div>
+
+  <a routerLink="/colecoes" (click)="fecharMenu()">Coleções</a>
+  <a routerLink="/product-list" (click)="fecharMenu()">Explorar</a>
+  <a routerLink="/outlet" (click)="fecharMenu()">Outlet</a>
+
+  <a href="#" (click)="abrirCart($event)">Carrinho</a>
+  <a href="#" (click)="abrirLogin($event)">Login</a>
+</div>

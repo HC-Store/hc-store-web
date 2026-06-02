@@ -1,0 +1,179 @@
+<app-header
+  (openLogin)="abrirLogin()"
+  (openCart)="abrirCart()"
+></app-header>
+
+<div
+  *ngIf="carregando"
+  style="color: white; padding: 40px; text-align:center;"
+>
+  Carregando produto...
+</div>
+
+<div
+  *ngIf="erro"
+  style="color: #e74c3c; padding: 40px; text-align:center;"
+>
+  {{ erro }}
+</div>
+
+<main class="page">
+  <a routerLink="/product-list" class="back-link">
+    Voltar a loja
+  </a>
+
+  <section class="product-layout">
+    <div class="gallery-column">
+      <div class="main-image">
+        <img
+          id="mainProductImage"
+          [src]="mainImage"
+          [alt]="produto?.nome"
+        />
+      </div>
+
+      <div class="thumbs" *ngIf="thumbnails.length > 0">
+        <button
+          type="button"
+          class="thumb"
+          *ngFor="let thumbnail of thumbnails; let i = index"
+          (click)="trocarImagem(thumbnail, i)"
+        >
+          <img
+            [src]="thumbnail"
+            [alt]="'Miniatura ' + (i + 1)"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div class="info-column">
+      <p class="category">
+        {{ categoriaProduto }}
+      </p>
+
+      <h1 class="product-title">
+        {{ produto?.nome }}
+      </h1>
+
+      <p class="price">
+        {{ produto?.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+      </p>
+
+      <div class="size-section">
+        <p class="section-title">
+          GUIA DE MEDIDAS
+        </p>
+
+        <div class="sizes">
+          <button
+            type="button"
+            class="size-btn"
+            *ngFor="let tamanho of tamanhos"
+            [class.active]="selectedSize === tamanho"
+            (click)="selecionarTamanho(tamanho)"
+          >
+            {{ tamanho }}
+          </button>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="add-cart-btn"
+        (click)="adicionarAoCarrinho()"
+        [disabled]="adicionandoCarrinho"
+      >
+        ADICIONAR AO CARRINHO
+      </button>
+
+      <p
+        *ngIf="sucesso"
+        style="color: #39ff14; font-weight: 600; margin-top: 8px;"
+      >
+        {{ sucesso }}
+      </p>
+
+      <p
+        *ngIf="erroCarrinho"
+        style="color: #e74c3c; font-weight: 600; margin-top: 8px;"
+      >
+        {{ erroCarrinho }}
+      </p>
+
+      <div class="divider"></div>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button
+            type="button"
+            class="accordion-trigger"
+            [class.active]="accordionOpen.material"
+            (click)="toggleAccordion('material')"
+          >
+            <span>COMPOSICAO DO MATERIAL</span>
+            <span class="arrow" [class.open]="accordionOpen.material">›</span>
+          </button>
+
+          <div
+            class="accordion-content"
+            *ngIf="accordionOpen.material"
+          >
+            <p *ngFor="let linha of textoAccordion('composicaoMaterial')">
+              {{ linha }}
+            </p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button
+            type="button"
+            class="accordion-trigger"
+            [class.active]="accordionOpen.lavagem"
+            (click)="toggleAccordion('lavagem')"
+          >
+            <span>INSTRUCOES DE LAVAGEM</span>
+            <span class="arrow" [class.open]="accordionOpen.lavagem">›</span>
+          </button>
+
+          <div
+            class="accordion-content"
+            *ngIf="accordionOpen.lavagem"
+          >
+            <p *ngFor="let linha of textoAccordion('instrucaoLavagem')">
+              {{ linha }}
+            </p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button
+            type="button"
+            class="accordion-trigger"
+            [class.active]="accordionOpen.envio"
+            (click)="toggleAccordion('envio')"
+          >
+            <span>ENVIO E DEVOLUCOES</span>
+            <span class="arrow" [class.open]="accordionOpen.envio">›</span>
+          </button>
+
+          <div
+            class="accordion-content"
+            *ngIf="accordionOpen.envio"
+          >
+            <p *ngFor="let linha of textoAccordion('enviosDevolucoes')">
+              {{ linha }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>
+
+<app-modals
+  [modalAberto]="modalAberto"
+  (closeModal)="fecharModal()"
+></app-modals>

@@ -1,0 +1,107 @@
+<div class="page">
+  <h2>Adicionar Produto</h2>
+
+  <div class="container">
+    <div class="form-card">
+      <p class="sucesso-msg" *ngIf="sucesso">✓ {{ sucesso }}</p>
+      <p class="erro-msg" *ngIf="erro">{{ erro }}</p>
+
+      <label>Nome do Produto</label>
+      <input [(ngModel)]="produto.nome" placeholder="Digite o nome aqui" />
+
+      <label>Descrição</label>
+      <textarea [(ngModel)]="produto.descricao" placeholder="Digite a descrição aqui"></textarea>
+
+      <label>Categoria</label>
+      <select [(ngModel)]="produto.categoriaId">
+        <option [ngValue]="null" disabled>Selecione uma categoria</option>
+        <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+          {{ cat.nome }}
+        </option>
+      </select>
+
+      <label>Marca</label>
+      <input [(ngModel)]="produto.marca" placeholder="Ex: Nike, Adidas" />
+
+      <label>Tamanhos e quantidade por tamanho</label>
+
+      <div class="sizes">
+        <span
+          *ngFor="let s of sizes"
+          (click)="toggleSize(s)"
+          [class.active]="sizeSelecionado(s)"
+        >
+          {{ s }}
+        </span>
+      </div>
+
+      <div class="size-quantity" *ngFor="let s of sizes">
+        <div *ngIf="sizeSelecionado(s)">
+          <label>Quantidade tamanho {{ s }}</label>
+          <input
+            type="number"
+            min="0"
+            [ngModel]="produto.quantidadePorTamanho[s]"
+            (ngModelChange)="produto.quantidadePorTamanho[s] = $event"
+          />
+        </div>
+      </div>
+
+      <label>Quantidade total no estoque</label>
+      <input type="number" [(ngModel)]="produto.estoque" placeholder="Ex: 100" />
+
+      <label>Preço</label>
+      <input type="number" [(ngModel)]="produto.preco" placeholder="Ex: 189.90" />
+
+      <label>Composição / Material</label>
+      <textarea
+        [(ngModel)]="produto.composicaoMaterial"
+        placeholder="Ex: 100% algodão, malha peruana..."
+      ></textarea>
+
+      <label>Instruções de lavagem</label>
+      <textarea
+        [(ngModel)]="produto.instrucaoLavagem"
+        placeholder="Ex: lavar à mão, não usar alvejante..."
+      ></textarea>
+
+      <label>Envios e devoluções</label>
+      <textarea
+        [(ngModel)]="produto.enviosDevolucoes"
+        placeholder="Ex: envio em até 2 dias úteis..."
+      ></textarea>
+
+      <label>Imagens do Produto — máximo 3</label>
+
+      <div class="upload-area" (click)="fileInput.click()">
+        <input
+          #fileInput
+          type="file"
+          hidden
+          accept="image/*"
+          (change)="onImageSelected($event)"
+        />
+
+        <div class="upload-placeholder" *ngIf="!uploadando">
+          <span>📷 Clique para selecionar imagem</span>
+          <small>{{ produto.imagens.length }}/3 imagens adicionadas</small>
+        </div>
+
+        <div class="upload-placeholder" *ngIf="uploadando">
+          <span>Enviando imagem...</span>
+        </div>
+      </div>
+
+      <div class="preview-grid" *ngIf="produto.imagens.length > 0">
+        <div class="preview-card" *ngFor="let img of produto.imagens; let i = index">
+          <img [src]="img" alt="Imagem do produto" />
+          <button type="button" (click)="removerImagem(i)">Remover</button>
+        </div>
+      </div>
+
+      <button class="btn" (click)="salvar()" [disabled]="carregando || uploadando">
+        {{ carregando ? 'SALVANDO...' : 'ADICIONAR' }}
+      </button>
+    </div>
+  </div>
+</div>
