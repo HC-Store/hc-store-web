@@ -1,12 +1,15 @@
 <div class="screen active" id="screen-produtos">
-  <div class="page-header">
-    <div class="page-title">Todos os Produtos</div>
-    <button class="btn-novo" (click)="novoProduto()">+ Novo Produto</button>
+  <div class="page-head">
+    <div>
+      <h2>Todos os Produtos</h2>
+      <p class="subtitle">{{ produtos.length }} produtos cadastrados</p>
+    </div>
+    <button class="btn-primary" (click)="novoProduto()">+ Novo Produto</button>
   </div>
 
-  <p *ngIf="carregando" style="color:white; padding:20px;">Carregando...</p>
-  <p *ngIf="erro" style="color:#e74c3c; padding:20px;">{{ erro }}</p>
-  <p *ngIf="!carregando && produtos.length === 0" style="color:#aaa; padding:20px;">Nenhum produto cadastrado.</p>
+  <p *ngIf="carregando" class="alert info">Carregando...</p>
+  <p *ngIf="erro" class="alert error">{{ erro }}</p>
+  <div *ngIf="!carregando && produtos.length === 0" class="panel empty-state">Nenhum produto cadastrado.</div>
 
   <div class="products-grid">
     <div class="product-card" *ngFor="let produto of produtos; let i = index">
@@ -14,18 +17,23 @@
         <img
           [src]="produto.imagens?.[0]?.url || 'assets/img/sem-imagem.png'"
           [alt]="produto.nome"
-          style="width:100%; height:100%; object-fit:cover;"
         />
+        <span class="product-cat">{{ produto.categoria?.nome || '—' }}</span>
         <div class="product-actions">
-          <button class="btn-edit-btn-sm" (click)="editarProduto(i)">✏️</button>
-          <button class="btn-red-btn-sm" (click)="removerProduto(i)">🗑️</button>
+          <button class="action edit" (click)="editarProduto(i)" title="Editar">
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+          </button>
+          <button class="action delete" (click)="removerProduto(i)" title="Excluir">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
+          </button>
         </div>
       </div>
 
       <div class="product-body">
-        <div class="product-name">{{ produto.nome }}</div>
-        <div class="product-cat">{{ produto.categoria?.nome || '—' }}</div>
-        <div class="product-price">R$ {{ produto.preco }}</div>
+        <div class="product-top">
+          <div class="product-name">{{ produto.nome }}</div>
+          <div class="product-price">R$ {{ produto.preco }}</div>
+        </div>
 
         <div class="size-grid">
           <span *ngFor="let size of (produto.tamanho?.split(',') || [])" class="size-tag">
@@ -47,23 +55,52 @@
   </div>
 </div>
 
-<div class="modal" *ngIf="showModal">
-  <div class="modal-box">
+<div class="modal" *ngIf="showModal" (click)="showModal=false">
+  <div class="modal-box wide" (click)="$event.stopPropagation()">
     <h3>Editar Produto</h3>
 
-    <input [(ngModel)]="form.nome" placeholder="Nome" />
-    <input [(ngModel)]="form.preco" placeholder="Preço" type="number" />
-    <input [(ngModel)]="form.tamanho" placeholder="Tamanhos (ex: P,M,G)" />
-    <input [(ngModel)]="form.estoque" placeholder="Estoque" type="number" />
-    <input [(ngModel)]="form.marca" placeholder="Marca" />
-    <textarea [(ngModel)]="form.composicaoMaterial" placeholder="Composicao do material"></textarea>
-    <textarea [(ngModel)]="form.instrucaoLavagem" placeholder="Instrucoes de lavagem"></textarea>
-    <textarea [(ngModel)]="form.enviosDevolucoes" placeholder="Envio e devolucoes"></textarea>
-    <textarea [(ngModel)]="form.descricao" placeholder="Descrição"></textarea>
+    <div class="form-grid">
+      <div class="field full">
+        <label>Nome</label>
+        <input [(ngModel)]="form.nome" placeholder="Nome" />
+      </div>
+      <div class="field">
+        <label>Preço</label>
+        <input [(ngModel)]="form.preco" placeholder="Preço" type="number" />
+      </div>
+      <div class="field">
+        <label>Estoque</label>
+        <input [(ngModel)]="form.estoque" placeholder="Estoque" type="number" />
+      </div>
+      <div class="field">
+        <label>Tamanhos</label>
+        <input [(ngModel)]="form.tamanho" placeholder="Tamanhos (ex: P,M,G)" />
+      </div>
+      <div class="field">
+        <label>Marca</label>
+        <input [(ngModel)]="form.marca" placeholder="Marca" />
+      </div>
+      <div class="field full">
+        <label>Descrição</label>
+        <textarea [(ngModel)]="form.descricao" placeholder="Descrição"></textarea>
+      </div>
+      <div class="field full">
+        <label>Composição do material</label>
+        <textarea [(ngModel)]="form.composicaoMaterial" placeholder="Composicao do material"></textarea>
+      </div>
+      <div class="field full">
+        <label>Instruções de lavagem</label>
+        <textarea [(ngModel)]="form.instrucaoLavagem" placeholder="Instrucoes de lavagem"></textarea>
+      </div>
+      <div class="field full">
+        <label>Envio e devoluções</label>
+        <textarea [(ngModel)]="form.enviosDevolucoes" placeholder="Envio e devolucoes"></textarea>
+      </div>
+    </div>
 
     <div class="modal-actions">
-      <button (click)="salvarProduto()">Salvar</button>
-      <button (click)="showModal=false" style="background-color:#ccc;">Cancelar</button>
+      <button class="btn-ghost" (click)="showModal=false">Cancelar</button>
+      <button class="btn-primary" (click)="salvarProduto()">Salvar</button>
     </div>
   </div>
 </div>

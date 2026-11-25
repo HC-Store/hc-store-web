@@ -1,19 +1,23 @@
 <div class="screen active" id="screen-pedidos">
-  <div class="page-header">
-    <div class="page-title">Lista de Pedidos</div>
+  <div class="page-head">
+    <div>
+      <h2>Lista de Pedidos</h2>
+      <p class="subtitle">Acompanhe e atualize o status dos pedidos</p>
+    </div>
   </div>
 
-  <p *ngIf="carregando" style="color:white; padding:20px;">Carregando...</p>
-  <p *ngIf="erro" style="color:#e74c3c; padding:20px;">{{ erro }}</p>
-  <p *ngIf="sucesso" style="color:#39ff14; padding:20px; font-weight:600;">✓ {{ sucesso }}</p>
+  <p *ngIf="carregando" class="alert info">Carregando...</p>
+  <p *ngIf="erro" class="alert error">{{ erro }}</p>
+  <p *ngIf="sucesso" class="alert success">✓ {{ sucesso }}</p>
 
-  <div class="card">
-    <div class="card-header">
-      <div class="card-title">Pedidos</div>
+  <div class="panel">
+    <div class="panel-head">
+      <h3>Pedidos</h3>
+      <span class="hint">{{ pedidos.length }} no total</span>
     </div>
 
-    <div class="tbl-wrap">
-      <table>
+    <div class="table-scroll">
+      <table class="data-table">
         <thead>
           <tr>
             <th>ID Pedido</th>
@@ -26,20 +30,26 @@
         </thead>
         <tbody>
           <tr *ngFor="let pedido of pedidos">
-            <td>#{{ pedido.id }}</td>
-            <td>{{ pedido.usuario?.nome }} {{ pedido.usuario?.sobrenome }}</td>
-            <td>{{ pedido.createdAt | date:'dd/MM/yyyy' }}</td>
-            <td>R$ {{ pedido.total }}</td>
+            <td class="strong">#{{ pedido.id }}</td>
             <td>
-              <span class="status"
+              <div class="cell-user">
+                <div class="avatar">{{ pedido.usuario?.nome?.charAt(0) }}</div>
+                {{ pedido.usuario?.nome }} {{ pedido.usuario?.sobrenome }}
+              </div>
+            </td>
+            <td class="muted">{{ pedido.createdAt | date:'dd/MM/yyyy' }}</td>
+            <td class="strong">R$ {{ pedido.total }}</td>
+            <td>
+              <span class="pill"
                 [class.delivered]="pedido.status === 'ENTREGUE'"
                 [class.canceled]="pedido.status === 'CANCELADO'"
-                [class.pending]="pedido.status === 'PENDENTE'">
+                [class.pending]="pedido.status === 'PENDENTE'"
+                [class.success]="pedido.status === 'PAGO' || pedido.status === 'ENVIADO'">
                 {{ pedido.status }}
               </span>
             </td>
             <td>
-              <select (change)="atualizarStatus(pedido, $any($event.target).value)">
+              <select class="status-select" (change)="atualizarStatus(pedido, $any($event.target).value)">
                 <option value="">Alterar</option>
                 <option value="PENDENTE">Pendente</option>
                 <option value="PAGO">Pago</option>
@@ -51,6 +61,8 @@
           </tr>
         </tbody>
       </table>
+
+      <div *ngIf="!carregando && pedidos.length === 0" class="empty-state">Nenhum pedido encontrado.</div>
     </div>
   </div>
 </div>

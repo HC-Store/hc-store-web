@@ -2,27 +2,39 @@
 
   <div class="left">
     <span class="breadcrumb">
-      HOME > <span class="active">{{ currentPage }}</span>
+      <span class="root">Home</span>
+      <svg class="sep" viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+      <span class="active">{{ currentPage }}</span>
     </span>
   </div>
 
   <div class="right">
-     <input *ngIf="showSearch"
-         [(ngModel)]="searchTerm"
-         (keyup.enter)="search()"
-         class="search-input"
-         placeholder="Buscar..." />
-
 
     <!-- 🔍 -->
-    <span class="icon" (click)="toggleSearch()">🔍</span>
+    <div class="search" [class.open]="showSearch">
+      <input *ngIf="showSearch"
+             [(ngModel)]="searchTerm"
+             (keyup.enter)="search()"
+             class="search-input"
+             placeholder="Buscar produtos..." />
+
+      <button class="icon" type="button" (click)="toggleSearch()" aria-label="Buscar">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      </button>
+    </div>
 
     <!-- 🔔 -->
     <div class="notif-container">
-      <span class="icon" (click)="toggleNotifications()">🔔</span>
+      <button class="icon" type="button" (click)="toggleNotifications()" aria-label="Notificações">
+        <svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        <span class="badge" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+      </button>
 
       <div class="notif-dropdown" *ngIf="showNotifications">
-        <div class="notif-title">Notificações</div>
+        <div class="notif-title">
+          Notificações
+          <span class="count" *ngIf="unreadCount > 0">{{ unreadCount }} novas</span>
+        </div>
 
         <div *ngFor="let n of notifications"
              class="notif-item"
@@ -37,18 +49,29 @@
       </div>
     </div>
 
+    <span class="divider"></span>
+
     <!-- 👤 ADMIN -->
     <div class="admin-container">
 
-      <div class="admin" (click)="toggleAdminMenu()">
-        ADMIN ▾
-      </div>
+      <button class="admin" type="button" (click)="toggleAdminMenu()">
+        <span class="admin-avatar">A</span>
+        <span class="admin-info">
+          <strong>Admin</strong>
+          <small>HC Store</small>
+        </span>
+        <svg class="chevron" [class.up]="showAdminMenu" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
 
       <div class="admin-dropdown" *ngIf="showAdminMenu">
 
-        <div class="admin-item">Perfil</div>
+        <div class="admin-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          Perfil
+        </div>
 
         <div class="admin-item logout" (click)="logout()">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><path d="M21 12H9"/></svg>
           Sair
         </div>
 

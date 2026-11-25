@@ -1,107 +1,169 @@
 <div class="page">
-  <h2>Adicionar Produto</h2>
+  <div class="page-head">
+    <div>
+      <h2>Adicionar Produto</h2>
+      <p class="subtitle">Preencha as informações para cadastrar um novo produto</p>
+    </div>
+  </div>
+
+  <p class="alert success" *ngIf="sucesso">✓ {{ sucesso }}</p>
+  <p class="alert error" *ngIf="erro">{{ erro }}</p>
 
   <div class="container">
-    <div class="form-card">
-      <p class="sucesso-msg" *ngIf="sucesso">✓ {{ sucesso }}</p>
-      <p class="erro-msg" *ngIf="erro">{{ erro }}</p>
 
-      <label>Nome do Produto</label>
-      <input [(ngModel)]="produto.nome" placeholder="Digite o nome aqui" />
+    <!-- ESQUERDA -->
+    <div class="main-col">
 
-      <label>Descrição</label>
-      <textarea [(ngModel)]="produto.descricao" placeholder="Digite a descrição aqui"></textarea>
+      <div class="section-card">
+        <h3>Informações básicas</h3>
 
-      <label>Categoria</label>
-      <select [(ngModel)]="produto.categoriaId">
-        <option [ngValue]="null" disabled>Selecione uma categoria</option>
-        <option *ngFor="let cat of categorias" [ngValue]="cat.id">
-          {{ cat.nome }}
-        </option>
-      </select>
+        <div class="field">
+          <label>Nome do Produto</label>
+          <input [(ngModel)]="produto.nome" placeholder="Digite o nome aqui" />
+        </div>
 
-      <label>Marca</label>
-      <input [(ngModel)]="produto.marca" placeholder="Ex: Nike, Adidas" />
+        <div class="field">
+          <label>Descrição</label>
+          <textarea [(ngModel)]="produto.descricao" placeholder="Digite a descrição aqui"></textarea>
+        </div>
 
-      <label>Tamanhos e quantidade por tamanho</label>
+        <div class="row">
+          <div class="field">
+            <label>Categoria</label>
+            <select [(ngModel)]="produto.categoriaId">
+              <option [ngValue]="null" disabled>Selecione uma categoria</option>
+              <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+                {{ cat.nome }}
+              </option>
+            </select>
+          </div>
 
-      <div class="sizes">
-        <span
-          *ngFor="let s of sizes"
-          (click)="toggleSize(s)"
-          [class.active]="sizeSelecionado(s)"
-        >
-          {{ s }}
-        </span>
-      </div>
-
-      <div class="size-quantity" *ngFor="let s of sizes">
-        <div *ngIf="sizeSelecionado(s)">
-          <label>Quantidade tamanho {{ s }}</label>
-          <input
-            type="number"
-            min="0"
-            [ngModel]="produto.quantidadePorTamanho[s]"
-            (ngModelChange)="produto.quantidadePorTamanho[s] = $event"
-          />
+          <div class="field">
+            <label>Marca</label>
+            <input [(ngModel)]="produto.marca" placeholder="Ex: Nike, Adidas" />
+          </div>
         </div>
       </div>
 
-      <label>Quantidade total no estoque</label>
-      <input type="number" [(ngModel)]="produto.estoque" placeholder="Ex: 100" />
+      <div class="section-card">
+        <h3>Tamanhos, estoque e preço</h3>
 
-      <label>Preço</label>
-      <input type="number" [(ngModel)]="produto.preco" placeholder="Ex: 189.90" />
-
-      <label>Composição / Material</label>
-      <textarea
-        [(ngModel)]="produto.composicaoMaterial"
-        placeholder="Ex: 100% algodão, malha peruana..."
-      ></textarea>
-
-      <label>Instruções de lavagem</label>
-      <textarea
-        [(ngModel)]="produto.instrucaoLavagem"
-        placeholder="Ex: lavar à mão, não usar alvejante..."
-      ></textarea>
-
-      <label>Envios e devoluções</label>
-      <textarea
-        [(ngModel)]="produto.enviosDevolucoes"
-        placeholder="Ex: envio em até 2 dias úteis..."
-      ></textarea>
-
-      <label>Imagens do Produto — máximo 3</label>
-
-      <div class="upload-area" (click)="fileInput.click()">
-        <input
-          #fileInput
-          type="file"
-          hidden
-          accept="image/*"
-          (change)="onImageSelected($event)"
-        />
-
-        <div class="upload-placeholder" *ngIf="!uploadando">
-          <span>📷 Clique para selecionar imagem</span>
-          <small>{{ produto.imagens.length }}/3 imagens adicionadas</small>
+        <div class="field">
+          <label>Tamanhos e quantidade por tamanho</label>
+          <div class="sizes">
+            <span
+              *ngFor="let s of sizes"
+              (click)="toggleSize(s)"
+              [class.active]="sizeSelecionado(s)"
+            >
+              {{ s }}
+            </span>
+          </div>
         </div>
 
-        <div class="upload-placeholder" *ngIf="uploadando">
-          <span>Enviando imagem...</span>
+        <div class="size-quantity">
+          <ng-container *ngFor="let s of sizes">
+            <div class="field" *ngIf="sizeSelecionado(s)">
+              <label>Qtd. tamanho {{ s }}</label>
+              <input
+                type="number"
+                min="0"
+                [ngModel]="produto.quantidadePorTamanho[s]"
+                (ngModelChange)="produto.quantidadePorTamanho[s] = $event"
+              />
+            </div>
+          </ng-container>
         </div>
-      </div>
 
-      <div class="preview-grid" *ngIf="produto.imagens.length > 0">
-        <div class="preview-card" *ngFor="let img of produto.imagens; let i = index">
-          <img [src]="img" alt="Imagem do produto" />
-          <button type="button" (click)="removerImagem(i)">Remover</button>
+        <div class="row">
+          <div class="field">
+            <label>Quantidade total no estoque</label>
+            <input type="number" [(ngModel)]="produto.estoque" placeholder="Ex: 100" />
+          </div>
+
+          <div class="field">
+            <label>Preço</label>
+            <div class="input-prefix">
+              <span>R$</span>
+              <input type="number" [(ngModel)]="produto.preco" placeholder="189.90" />
+            </div>
+          </div>
         </div>
       </div>
 
-      <button class="btn" (click)="salvar()" [disabled]="carregando || uploadando">
-        {{ carregando ? 'SALVANDO...' : 'ADICIONAR' }}
-      </button>
+      <div class="section-card">
+        <h3>Detalhes do produto</h3>
+
+        <div class="field">
+          <label>Composição / Material</label>
+          <textarea
+            [(ngModel)]="produto.composicaoMaterial"
+            placeholder="Ex: 100% algodão, malha peruana..."
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label>Instruções de lavagem</label>
+          <textarea
+            [(ngModel)]="produto.instrucaoLavagem"
+            placeholder="Ex: lavar à mão, não usar alvejante..."
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label>Envios e devoluções</label>
+          <textarea
+            [(ngModel)]="produto.enviosDevolucoes"
+            placeholder="Ex: envio em até 2 dias úteis..."
+          ></textarea>
+        </div>
+      </div>
+
     </div>
+
+    <!-- DIREITA -->
+    <div class="side-col">
+
+      <div class="section-card">
+        <h3>Imagens <small class="counter">{{ produto.imagens.length }}/3</small></h3>
+
+        <div class="upload-area" [class.busy]="uploadando" (click)="fileInput.click()">
+          <input
+            #fileInput
+            type="file"
+            hidden
+            accept="image/*"
+            (change)="onImageSelected($event)"
+          />
+
+          <div class="upload-placeholder" *ngIf="!uploadando">
+            <span class="upload-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 16V4"/><polyline points="7 9 12 4 17 9"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+            </span>
+            <strong>Clique para selecionar imagem</strong>
+            <small>Máximo de 3 imagens</small>
+          </div>
+
+          <div class="upload-placeholder" *ngIf="uploadando">
+            <span class="spinner"></span>
+            <strong>Enviando imagem...</strong>
+          </div>
+        </div>
+
+        <div class="preview-grid" *ngIf="produto.imagens.length > 0">
+          <div class="preview-card" *ngFor="let img of produto.imagens; let i = index">
+            <img [src]="img" alt="Imagem do produto" />
+            <span class="main-badge" *ngIf="i === 0">Principal</span>
+            <button type="button" (click)="removerImagem(i)" title="Remover">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary submit" (click)="salvar()" [disabled]="carregando || uploadando">
+        {{ carregando ? 'SALVANDO...' : 'ADICIONAR PRODUTO' }}
+      </button>
+
+    </div>
+
   </div>
 </div>

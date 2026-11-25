@@ -29,6 +29,10 @@ export class TopbarComponent {
     { text: 'Produto atualizado', read: true }
   ];
 
+  get unreadCount(): number {
+    return this.notifications.filter(n => !n.read).length;
+  }
+
   // 👤 ADMIN MENU
   showAdminMenu = false;
 
@@ -82,6 +86,8 @@ export class TopbarComponent {
     else if (url.includes('/admin/pedidos')) this.currentPage = 'PEDIDOS';
     else if (url.includes('/admin/usuarios')) this.currentPage = 'USUÁRIOS';
     else if (url.includes('/admin/adicionar-produto')) this.currentPage = 'ADICIONAR PRODUTO';
+    else if (url.includes('/admin/config-home')) this.currentPage = 'CONFIG. HOME';
+    else if (url.includes('/admin/config-colecoes')) this.currentPage = 'CONFIG. COLEÇÕES';
     else this.currentPage = 'DASHBOARD';
   }
 

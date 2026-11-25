@@ -1,101 +1,154 @@
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.page-title {
-  font-weight: 800;
-  font-size: 26px;
-}
-
-.btn-gold {
-  background-color: #25df14;
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  height: 38px;
-  padding: 0 18px;
-  cursor: pointer;
-}
-
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(220px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
 }
 
+/* CARD */
 .product-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-  transition: 0.25s ease;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
 }
 
 .product-card:hover {
-  border-color: #25df14;
-  transform: translateY(-3px);
+  transform: translateY(-4px);
+  border-color: rgba(37, 223, 20, 0.5);
+  box-shadow: 0 18px 40px rgba(16, 24, 40, 0.1);
 }
 
+/* IMAGEM */
 .product-img {
-  height: 120px;
-  background: #f7f7f7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 46px;
   position: relative;
+  height: 220px;
+  background: var(--line-2);
+  overflow: hidden;
 }
 
+.product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-img img {
+  transform: scale(1.05);
+}
+
+.product-cat {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(10, 11, 13, 0.75);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* AÇÕES */
 .product-actions {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 12px;
+  right: 12px;
   display: flex;
-  gap: 6px;
+  gap: 8px;
   opacity: 0;
-  transition: 0.2s ease;
+  transform: translateY(-4px);
+  transition: opacity var(--trans), transform var(--trans);
 }
 
 .product-card:hover .product-actions {
   opacity: 1;
+  transform: none;
 }
 
-.btn-edit-btn-sm,
-.btn-red-btn-sm {
+.action {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--ink-2);
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(16, 24, 40, 0.15);
+  transition: background var(--trans), color var(--trans);
 }
 
+.action svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.action.edit:hover {
+  background: var(--brand);
+  color: #06140a;
+}
+
+.action.delete:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* CORPO */
 .product-body {
-  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px;
+}
+
+.product-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .product-name {
   font-size: 15px;
-  font-weight: 800;
-  margin-bottom: 4px;
-}
-
-.product-cat {
-  font-size: 12px;
-  color: #777;
-  margin-bottom: 6px;
+  font-weight: 700;
+  line-height: 1.35;
 }
 
 .product-price {
-  font-size: 16px;
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--brand-50);
+  color: #149108;
+  font-size: 14px;
   font-weight: 800;
-  color: #25df14;
-  margin-bottom: 12px;
+  white-space: nowrap;
 }
 
 .product-desc {
-  font-size: 12px;
-  color: #666;
-  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-3);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .size-grid {
@@ -104,87 +157,81 @@
   gap: 6px;
 }
 
-.size-tag {
-  padding: 5px 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 12px;
+.size-grid:empty {
+  display: none;
 }
 
+.size-tag {
+  min-width: 32px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ESTOQUE */
 .stat-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-2);
   font-size: 12px;
-  margin-top: 8px;
 }
 
 .stat-label {
-  color: #777;
-  min-width: 95px;
+  color: var(--ink-3);
+  font-weight: 600;
 }
 
 .stat-bar {
   flex: 1;
-  height: 5px;
-  background: #e5e5e5;
-  border-radius: 10px;
+  height: 6px;
+  background: var(--line-2);
+  border-radius: 999px;
   overflow: hidden;
 }
 
 .stat-fill {
   height: 100%;
-  background: #25df14;
-}
-
-.stat-fill.orange {
-  background: #ff9800;
+  max-width: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #25df14, #0fa84f);
 }
 
 .stat-val {
   min-width: 32px;
   text-align: right;
-  font-size: 12px;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-}
-
-.modal-box {
-  background: #fff;
-  padding: 24px;
-  border-radius: 14px;
-  width: 360px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.modal-box input,
-.modal-box textarea {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: space-between;
-}
-
-.modal-actions button {
-  cursor: pointer;
   font-weight: 700;
-  background-color: #25df14;
-  border: none;
-  border-radius: 7px;
-  height: 34px;
-  padding: 0 14px;
+  color: var(--ink);
+}
+
+/* MODAL */
+.modal-box.wide {
+  max-width: 620px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-grid .full {
+  grid-column: 1 / -1;
+}
+
+.form-grid textarea {
+  min-height: 72px;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
 }

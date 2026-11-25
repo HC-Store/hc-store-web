@@ -83,18 +83,35 @@ export class DashboardComponent implements AfterViewInit {
           label: 'Vendas',
           data: [10, 30, 20, 40, 25, 50],
           backgroundColor: '#25df14',
-          borderRadius: 6
+          hoverBackgroundColor: '#1cb80e',
+          borderRadius: 10,
+          borderSkipped: false,
+          maxBarThickness: 44
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { display: false }
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0a0b0d',
+            padding: 12,
+            cornerRadius: 10,
+            displayColors: false
+          }
         },
         scales: {
-          x: { grid: { display: false } },
-          y: { grid: { color: '#eee' } }
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: { color: '#7a828e', font: { family: 'Inter', weight: 600 } }
+          },
+          y: {
+            grid: { color: '#f2f4f6' },
+            border: { display: false },
+            ticks: { color: '#7a828e', font: { family: 'Inter' } }
+          }
         }
       }
     });

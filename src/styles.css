@@ -1,1 +1,489 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ===== ADMIN: tokens e base compartilhada ===== */
+.admin-app {
+  --brand: #25df14;
+  --brand-600: #1cb80e;
+  --brand-50: #effdec;
+  --brand-ring: rgba(37, 223, 20, 0.18);
+
+  --ink: #0f1115;
+  --ink-2: #3d434d;
+  --ink-3: #7a828e;
+  --line: #e9ecef;
+  --line-2: #f2f4f6;
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --surface-2: #f9fafb;
+
+  --danger: #e5484d;
+  --danger-50: #fdecec;
+  --info: #3b82f6;
+  --info-50: #eaf2ff;
+  --warn: #f59e0b;
+  --warn-50: #fff5e1;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 20px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 24px 60px rgba(16, 24, 40, 0.18);
+  --trans: 0.18s ease;
+
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.admin-app *,
+.admin-app *::before,
+.admin-app *::after {
+  box-sizing: border-box;
+}
+
+.admin-app h1,
+.admin-app h2,
+.admin-app h3,
+.admin-app p {
+  margin: 0;
+}
+
+.admin-app button,
+.admin-app input,
+.admin-app select,
+.admin-app textarea {
+  font-family: inherit;
+}
+
+/* Campos de formulário */
+.admin-app input:not([type='file']),
+.admin-app select,
+.admin-app textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  color: var(--ink);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--trans), box-shadow var(--trans);
+}
+
+.admin-app textarea {
+  min-height: 96px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.admin-app input::placeholder,
+.admin-app textarea::placeholder {
+  color: #a8afb9;
+}
+
+.admin-app input:hover,
+.admin-app select:hover,
+.admin-app textarea:hover {
+  border-color: #d5dae0;
+}
+
+.admin-app input:focus,
+.admin-app select:focus,
+.admin-app textarea:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 4px var(--brand-ring);
+}
+
+.admin-app select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 36px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a828e' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+/* Cabeçalho de página */
+.admin-app .page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.admin-app .page-head h2 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+.admin-app .page-head .subtitle {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+/* Botões */
+.admin-app .btn-primary,
+.admin-app .btn-ghost,
+.admin-app .btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--trans), color var(--trans), border-color var(--trans), transform var(--trans);
+}
+
+.admin-app .btn-primary {
+  background: var(--brand);
+  color: #06140a;
+  box-shadow: 0 6px 16px rgba(37, 223, 20, 0.28);
+}
+
+.admin-app .btn-primary:hover:not(:disabled) {
+  background: var(--brand-600);
+  transform: translateY(-1px);
+}
+
+.admin-app .btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.admin-app .btn-ghost {
+  background: var(--surface);
+  color: var(--ink-2);
+  border-color: var(--line);
+}
+
+.admin-app .btn-ghost:hover {
+  background: var(--surface-2);
+  border-color: #d5dae0;
+}
+
+.admin-app .btn-danger {
+  background: var(--danger-50);
+  color: var(--danger);
+}
+
+.admin-app .btn-danger:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* Alertas */
+.admin-app .alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.admin-app .alert.success {
+  background: var(--brand-50);
+  color: #137a09;
+  border-color: #c9f5c2;
+}
+
+.admin-app .alert.error {
+  background: var(--danger-50);
+  color: #b4232a;
+  border-color: #f8cfd0;
+}
+
+.admin-app .alert.info {
+  background: var(--surface);
+  color: var(--ink-3);
+  border-color: var(--line);
+}
+
+/* Modal */
+.admin-app .modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(10, 12, 16, 0.55);
+  backdrop-filter: blur(4px);
+  animation: admin-fade 0.18s ease;
+}
+
+.admin-app .modal-box {
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: var(--shadow-lg);
+  animation: admin-pop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+.admin-app .modal-box h3 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.admin-app .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-2);
+}
+
+.admin-app .field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-app .field label,
+.admin-app .label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* Status (pílulas) */
+.admin-app .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--line-2);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.admin-app .pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.admin-app .pill.delivered { background: var(--info-50); color: var(--info); }
+.admin-app .pill.canceled { background: var(--danger-50); color: var(--danger); }
+.admin-app .pill.pending { background: var(--warn-50); color: #b97400; }
+.admin-app .pill.success { background: var(--brand-50); color: #149108; }
+
+/* Avatar */
+.admin-app .avatar {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #25df14, #0fa84f);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Cartão padrão */
+.admin-app .panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.admin-app .panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.admin-app .panel-head h3 {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.admin-app .panel-head .hint {
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+/* Tabela padrão */
+.admin-app .table-scroll {
+  overflow-x: auto;
+}
+
+.admin-app .data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.admin-app .data-table thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ink-3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 12px 22px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.admin-app .data-table tbody td {
+  padding: 14px 22px;
+  font-size: 14px;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--line-2);
+  vertical-align: middle;
+}
+
+.admin-app .data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-app .data-table tbody tr {
+  transition: background var(--trans);
+}
+
+.admin-app .data-table tbody tr:hover {
+  background: #fafcfa;
+}
+
+.admin-app .data-table .muted {
+  color: var(--ink-3);
+}
+
+.admin-app .data-table .strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.admin-app .cell-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Seções de formulário (adicionar produto / configurações) */
+.admin-app .section-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.admin-app .section-card > h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line-2);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+}
+
+.admin-app .section-card > h3::before {
+  content: '';
+  width: 4px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--brand);
+}
+
+.admin-app .section-card > label {
+  margin-bottom: -10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.admin-app .preview-media {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--line-2);
+}
+
+.admin-app .save-bar {
+  position: sticky;
+  bottom: 16px;
+  z-index: 5;
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.admin-app .save-bar .btn-primary {
+  min-width: 240px;
+}
+
+.admin-app .empty-state {
+  padding: 48px 20px;
+  text-align: center;
+  color: var(--ink-3);
+  font-size: 14px;
+}
+
+@keyframes admin-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes admin-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
